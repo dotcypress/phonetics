@@ -47,6 +47,14 @@ func EncodeSoundex(word string) string {
 // DifferenceSoundex is a function to calculate difference between two strings with Soundex algorithm.
 // Function returns a ranking on how similar two words are in percents.
 func DifferenceSoundex(word1, word2 string) int {
+	sum := differenceSoundex(word1, word2) + differenceSoundex(word2, word1)
+	if sum == 0 {
+		return 0
+	}
+	return sum / 2
+}
+
+func differenceSoundex(word1, word2 string) int {
 	soundex1 := EncodeSoundex(word1)
 	soundex2 := EncodeSoundex(word2)
 	if soundex1 == soundex2 {

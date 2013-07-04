@@ -31,6 +31,7 @@ func TestDifference(t *testing.T) {
 	assertDifference(t, "Lake", "Bake", 75)
 	assertDifference(t, "Brad", "Lad", 50)
 	assertDifference(t, "Horrible", "Great", 25)
+	assertDifference(t, "Mike", "Jeremy", 37)
 }
 
 func assertDifference(t *testing.T, word1 string, word2 string, rank int) {
