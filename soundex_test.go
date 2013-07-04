@@ -6,36 +6,36 @@ package phonetics
 
 import "testing"
 
-func TestEmptyString(t *testing.T) {
+func TestSoundexEmptyString(t *testing.T) {
 	if EncodeSoundex("") != "0000" {
 		t.Errorf("Encode with empty string should return 0000")
 	}
 }
 
-func TestEncode(t *testing.T) {
-	assertEquals(t, "Donald", "D543")
-	assertEquals(t, "Zach", "Z200")
-	assertEquals(t, "Campbel", "C514")
-	assertEquals(t, "Cammmppppbbbeeelll", "C514")
-	assertEquals(t, "David", "D130")
+func TestSoundexEncode(t *testing.T) {
+	assertSoundexEquals(t, "Donald", "D543")
+	assertSoundexEquals(t, "Zach", "Z200")
+	assertSoundexEquals(t, "Campbel", "C514")
+	assertSoundexEquals(t, "Cammmppppbbbeeelll", "C514")
+	assertSoundexEquals(t, "David", "D130")
 }
 
-func assertEquals(t *testing.T, source string, target string) {
-	if EncodeSoundex(source) != target {
-		t.Errorf("source doesn't match target. Input: %s, Result: %s, Target: %s", source, EncodeSoundex(source), target)
+func TestSoundexDifference(t *testing.T) {
+	assertSoundexDifference(t, "Zach", "Zac", 100)
+	assertSoundexDifference(t, "Lake", "Bake", 75)
+	assertSoundexDifference(t, "Brad", "Lad", 50)
+	assertSoundexDifference(t, "Horrible", "Great", 25)
+	assertSoundexDifference(t, "Mike", "Jeremy", 37)
+}
+
+func assertSoundexDifference(t *testing.T, word1 string, word2 string, rank int) {
+	if DifferenceSoundex(word1, word2) != rank {
+		t.Errorf("difference doesn't match target. Input: (%s, %s), Result: %d, Target: %d", word1, word2, DifferenceSoundex(word1, word2), rank)
 	}
 }
 
-func TestDifference(t *testing.T) {
-	assertDifference(t, "Zach", "Zac", 100)
-	assertDifference(t, "Lake", "Bake", 75)
-	assertDifference(t, "Brad", "Lad", 50)
-	assertDifference(t, "Horrible", "Great", 25)
-	assertDifference(t, "Mike", "Jeremy", 37)
-}
-
-func assertDifference(t *testing.T, word1 string, word2 string, rank int) {
-	if DifferenceSoundex(word1, word2) != rank {
-		t.Errorf("difference doesn't match target. Input: (%s, %s), Result: %d, Target: %d", word1, word2, DifferenceSoundex(word1, word2), rank)
+func assertSoundexEquals(t *testing.T, source string, target string) {
+	if EncodeSoundex(source) != target {
+		t.Errorf("source doesn't match target. Input: %s, Result: %s, Target: %s", source, EncodeSoundex(source), target)
 	}
 }
