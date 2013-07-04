@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-// EncodeSoundex is a function to encode string options with Soundex algorithm.
-// Soundex is a phonetic algorithm for indexing names by sound, as pronounced in English
+// EncodeSoundex is a function to encode string with Soundex algorithm.
+// Soundex is a phonetic algorithm for indexing names by sound, as pronounced in English.
 func EncodeSoundex(word string) string {
 	if word == "" {
 		return "0000"
@@ -42,4 +42,34 @@ func EncodeSoundex(word string) string {
 		}
 	}
 	return result + strings.Repeat("0", 4-len(result))
+}
+
+// DifferenceSoundex is a function to calculate difference between two strings with Soundex algorithm.
+// Function returns a ranking on how similar two words are in percents.
+func DifferenceSoundex(word1, word2 string) int {
+	soundex1 := EncodeSoundex(word1)
+	soundex2 := EncodeSoundex(word2)
+	if soundex1 == soundex2 {
+		return 100
+	}
+	result := 0
+	if strings.Index(soundex2, soundex1[1:]) > -1 {
+		result = 3
+	} else if strings.Index(soundex2, soundex1[2:]) > -1 || strings.Index(soundex2, soundex1[1:3]) > -1 {
+		result = 2
+	} else {
+		if strings.Index(soundex2, soundex1[1:2]) > -1 {
+			result = result + 1
+		}
+		if strings.Index(soundex2, soundex1[2:3]) > -1 {
+			result = result + 1
+		}
+		if strings.Index(soundex2, soundex1[3:4]) > -1 {
+			result = result + 1
+		}
+	}
+	if soundex1[0:1] == soundex2[0:1] {
+		result = result + 1
+	}
+	return result * 25
 }

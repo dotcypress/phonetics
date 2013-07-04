@@ -22,6 +22,19 @@ func TestEncode(t *testing.T) {
 
 func assertEquals(t *testing.T, source string, target string) {
 	if EncodeSoundex(source) != target {
-		t.Errorf("source doesn't match target. %s -> %s", source, EncodeSoundex(source))
+		t.Errorf("source doesn't match target. Input: %s, Result: %s, Target: %s", source, EncodeSoundex(source), target)
+	}
+}
+
+func TestDifference(t *testing.T) {
+	assertDifference(t, "Zach", "Zac", 100)
+	assertDifference(t, "Lake", "Bake", 75)
+	assertDifference(t, "Brad", "Lad", 50)
+	assertDifference(t, "Horrible", "Great", 25)
+}
+
+func assertDifference(t *testing.T, word1 string, word2 string, rank int) {
+	if DifferenceSoundex(word1, word2) != rank {
+		t.Errorf("difference doesn't match target. Input: (%s, %s), Result: %d, Target: %d", word1, word2, DifferenceSoundex(word1, word2), rank)
 	}
 }
